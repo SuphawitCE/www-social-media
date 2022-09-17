@@ -7,6 +7,7 @@ import Input from '../../components/Form/Input/Input'
 import Paginator from '../../components/Paginator/Paginator'
 import Loader from '../../components/Loader/Loader'
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler'
+import { URL_GET_POSTS, URL_CREATE_POST } from '../../util/api'
 import './Feed.css'
 
 class Feed extends Component {
@@ -50,7 +51,7 @@ class Feed extends Component {
       page--
       this.setState({ postPage: page })
     }
-    fetch('URL')
+    fetch(URL_GET_POSTS)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch posts.')
@@ -102,6 +103,15 @@ class Feed extends Component {
   }
 
   finishEditHandler = (postData) => {
+    const httpOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: postData.title,
+        content: postData.content,
+      }),
+    }
+
     this.setState({
       editLoading: true,
     })
@@ -111,7 +121,7 @@ class Feed extends Component {
       url = 'URL'
     }
 
-    fetch(url)
+    fetch(URL_CREATE_POST, httpOptions)
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Creating or editing a post failed!')
@@ -119,6 +129,7 @@ class Feed extends Component {
         return res.json()
       })
       .then((resData) => {
+        console.log('log: ', resData)
         const post = {
           _id: resData.post._id,
           title: resData.post.title,

@@ -1,6 +1,7 @@
-const url = 'http://localhost:8080'
+const URL_BASE = 'http://localhost:8080'
 
 module.exports = {
-  URL_GET_POSTS: `${url}/feed/posts`,
-  URL_CREATE_POST: `${url}/feed/post`,
+  URL_BASE,
+  URL_GET_POSTS: `${URL_BASE}/feed/posts`,
+  URL_CREATE_POST: `${URL_BASE}/feed/post`,
 }

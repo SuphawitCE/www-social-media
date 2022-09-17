@@ -10,7 +10,7 @@ Checkout some branch with a specific feature
 `git checkout somebranch`
 
 ```
-cd folder
+cd www-social-media
 npm install
 npm start
 ```

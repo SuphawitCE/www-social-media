@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import Button from '../../Button/Button';
-import './Post.css';
+import Button from '../../Button/Button'
+import './Post.css'
 
-const post = props => (
+const post = (props) => (
   <article className="post">
     <header className="post__header">
       <h3 className="post__meta">
@@ -27,6 +27,6 @@ const post = props => (
       </Button>
     </div>
   </article>
-);
+)
 
-export default post;
+export default post

@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import './Image.css';
+import './Image.css'
 
-const image = props => (
+const image = (props) => (
   <div
     className="image"
     style={{
       backgroundImage: `url('${props.imageUrl}')`,
       backgroundSize: props.contain ? 'contain' : 'cover',
-      backgroundPosition: props.left ? 'left' : 'center'
+      backgroundPosition: props.left ? 'left' : 'center',
     }}
   />
-);
+)
 
-export default image;
+export default image

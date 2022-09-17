@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Input from '../../components/Form/Input/Input';
-import Button from '../../components/Button/Button';
-import { required, length, email } from '../../util/validators';
-import Auth from './Auth';
+import Input from '../../components/Form/Input/Input'
+import Button from '../../components/Button/Button'
+import { required, length, email } from '../../util/validators'
+import Auth from './Auth'
 
 class Login extends Component {
   state = {
@@ -12,65 +12,65 @@ class Login extends Component {
         value: '',
         valid: false,
         touched: false,
-        validators: [required, email]
+        validators: [required, email],
       },
       password: {
         value: '',
         valid: false,
         touched: false,
-        validators: [required, length({ min: 5 })]
+        validators: [required, length({ min: 5 })],
       },
-      formIsValid: false
-    }
-  };
+      formIsValid: false,
+    },
+  }
 
   inputChangeHandler = (input, value) => {
-    this.setState(prevState => {
-      let isValid = true;
+    this.setState((prevState) => {
+      let isValid = true
       for (const validator of prevState.loginForm[input].validators) {
-        isValid = isValid && validator(value);
+        isValid = isValid && validator(value)
       }
       const updatedForm = {
         ...prevState.loginForm,
         [input]: {
           ...prevState.loginForm[input],
           valid: isValid,
-          value: value
-        }
-      };
-      let formIsValid = true;
+          value: value,
+        },
+      }
+      let formIsValid = true
       for (const inputName in updatedForm) {
-        formIsValid = formIsValid && updatedForm[inputName].valid;
+        formIsValid = formIsValid && updatedForm[inputName].valid
       }
       return {
         loginForm: updatedForm,
-        formIsValid: formIsValid
-      };
-    });
-  };
+        formIsValid: formIsValid,
+      }
+    })
+  }
 
-  inputBlurHandler = input => {
-    this.setState(prevState => {
+  inputBlurHandler = (input) => {
+    this.setState((prevState) => {
       return {
         loginForm: {
           ...prevState.loginForm,
           [input]: {
             ...prevState.loginForm[input],
-            touched: true
-          }
-        }
-      };
-    });
-  };
+            touched: true,
+          },
+        },
+      }
+    })
+  }
 
   render() {
     return (
       <Auth>
         <form
-          onSubmit={e =>
+          onSubmit={(e) =>
             this.props.onLogin(e, {
               email: this.state.loginForm.email.value,
-              password: this.state.loginForm.password.value
+              password: this.state.loginForm.password.value,
             })
           }
         >
@@ -101,8 +101,8 @@ class Login extends Component {
           </Button>
         </form>
       </Auth>
-    );
+    )
   }
 }
 
-export default Login;
+export default Login

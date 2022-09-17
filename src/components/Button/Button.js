@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import './Button.css';
+import './Button.css'
 
-const button = props =>
+const button = (props) =>
   !props.link ? (
     <button
       className={[
         'button',
         `button--${props.design}`,
-        `button--${props.mode}`
+        `button--${props.mode}`,
       ].join(' ')}
       onClick={props.onClick}
       disabled={props.disabled || props.loading}
@@ -22,12 +22,12 @@ const button = props =>
       className={[
         'button',
         `button--${props.design}`,
-        `button--${props.mode}`
+        `button--${props.mode}`,
       ].join(' ')}
       to={props.link}
     >
       {props.children}
     </Link>
-  );
+  )
 
-export default button;
+export default button

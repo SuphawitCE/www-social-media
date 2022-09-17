@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Input from '../../components/Form/Input/Input';
-import Button from '../../components/Button/Button';
-import { required, length, email } from '../../util/validators';
-import Auth from './Auth';
+import Input from '../../components/Form/Input/Input'
+import Button from '../../components/Button/Button'
+import { required, length, email } from '../../util/validators'
+import Auth from './Auth'
 
 class Signup extends Component {
   state = {
@@ -12,67 +12,67 @@ class Signup extends Component {
         value: '',
         valid: false,
         touched: false,
-        validators: [required, email]
+        validators: [required, email],
       },
       password: {
         value: '',
         valid: false,
         touched: false,
-        validators: [required, length({ min: 5 })]
+        validators: [required, length({ min: 5 })],
       },
       name: {
         value: '',
         valid: false,
         touched: false,
-        validators: [required]
+        validators: [required],
       },
-      formIsValid: false
-    }
-  };
+      formIsValid: false,
+    },
+  }
 
   inputChangeHandler = (input, value) => {
-    this.setState(prevState => {
-      let isValid = true;
+    this.setState((prevState) => {
+      let isValid = true
       for (const validator of prevState.signupForm[input].validators) {
-        isValid = isValid && validator(value);
+        isValid = isValid && validator(value)
       }
       const updatedForm = {
         ...prevState.signupForm,
         [input]: {
           ...prevState.signupForm[input],
           valid: isValid,
-          value: value
-        }
-      };
-      let formIsValid = true;
+          value: value,
+        },
+      }
+      let formIsValid = true
       for (const inputName in updatedForm) {
-        formIsValid = formIsValid && updatedForm[inputName].valid;
+        formIsValid = formIsValid && updatedForm[inputName].valid
       }
       return {
         signupForm: updatedForm,
-        formIsValid: formIsValid
-      };
-    });
-  };
+        formIsValid: formIsValid,
+      }
+    })
+  }
 
-  inputBlurHandler = input => {
-    this.setState(prevState => {
+  inputBlurHandler = (input) => {
+    this.setState((prevState) => {
       return {
         signupForm: {
           ...prevState.signupForm,
           [input]: {
             ...prevState.signupForm[input],
-            touched: true
-          }
-        }
-      };
-    });
-  };
+            touched: true,
+          },
+        },
+      }
+    })
+  }
 
   render() {
     return (
       <Auth>
-        <form onSubmit={e => this.props.onSignup(e, this.state)}>
+        <form onSubmit={(e) => this.props.onSignup(e, this.state)}>
           <Input
             id="email"
             label="Your E-Mail"
@@ -111,8 +111,8 @@ class Signup extends Component {
           </Button>
         </form>
       </Auth>
-    );
+    )
   }
 }
 
-export default Signup;
+export default Signup

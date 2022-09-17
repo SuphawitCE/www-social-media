@@ -1,13 +1,13 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-import MobileToggle from '../MobileToggle/MobileToggle';
-import Logo from '../../Logo/Logo';
-import NavigationItems from '../NavigationItems/NavigationItems';
+import MobileToggle from '../MobileToggle/MobileToggle'
+import Logo from '../../Logo/Logo'
+import NavigationItems from '../NavigationItems/NavigationItems'
 
-import './MainNavigation.css';
+import './MainNavigation.css'
 
-const mainNavigation = props => (
+const mainNavigation = (props) => (
   <nav className="main-nav">
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <div className="main-nav__logo">
@@ -20,6 +20,6 @@ const mainNavigation = props => (
       <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />
     </ul>
   </nav>
-);
+)
 
-export default mainNavigation;
+export default mainNavigation

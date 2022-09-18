@@ -188,7 +188,12 @@ class Feed extends Component {
 
   deletePostHandler = (postId) => {
     this.setState({ postsLoading: true })
-    fetch('URL')
+
+    const httpOptions = { method: 'DELETE' }
+
+    const DELETE_POST_URL = `${URL_BASE}/feed/post/${postId}`
+
+    fetch(DELETE_POST_URL, httpOptions)
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Deleting a post failed!')
@@ -196,7 +201,7 @@ class Feed extends Component {
         return res.json()
       })
       .then((resData) => {
-        console.log(resData)
+        console.log('delete:', resData)
         this.setState((prevState) => {
           const updatedPosts = prevState.posts.filter((p) => p._id !== postId)
           return { posts: updatedPosts, postsLoading: false }

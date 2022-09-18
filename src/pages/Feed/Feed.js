@@ -103,19 +103,21 @@ class Feed extends Component {
   }
 
   finishEditHandler = (postData) => {
-    const httpOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: postData.title,
-        content: postData.content,
-      }),
-    }
-
     this.setState({
       editLoading: true,
     })
     // Set up data (with image!)
+    const formData = new FormData()
+    formData.append('title', postData.title)
+    formData.append('content', postData.content)
+    formData.append('image', postData.image)
+
+    const httpOptions = {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      body: formData,
+    }
+
     let url = 'URL'
     if (this.state.editPost) {
       url = 'URL'

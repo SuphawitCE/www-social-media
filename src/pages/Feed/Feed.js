@@ -7,7 +7,7 @@ import Input from '../../components/Form/Input/Input'
 import Paginator from '../../components/Paginator/Paginator'
 import Loader from '../../components/Loader/Loader'
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler'
-import { URL_GET_POSTS, URL_CREATE_POST } from '../../util/api'
+import { URL_GET_POSTS, URL_CREATE_POST, URL_BASE } from '../../util/api'
 import './Feed.css'
 
 class Feed extends Component {
@@ -60,7 +60,10 @@ class Feed extends Component {
       })
       .then((resData) => {
         this.setState({
-          posts: resData.posts,
+          posts: resData.posts.map((post) => ({
+            ...post,
+            imagePath: post.imageUrl,
+          })),
           totalPosts: resData.totalItems,
           postsLoading: false,
         })
@@ -112,18 +115,29 @@ class Feed extends Component {
     formData.append('content', postData.content)
     formData.append('image', postData.image)
 
+    const isEditPost = this.state.editPost
+
+    let EDIT_POST_URL = ''
+    if (isEditPost) {
+      EDIT_POST_URL = `${URL_BASE}/feed/post/${this.state.editPost._id}`
+    }
+
     const httpOptions = {
-      method: 'POST',
+      method: isEditPost ? 'PUT' : 'POST',
       // headers: { 'Content-Type': 'application/json' },
       body: formData,
     }
 
-    let url = 'URL'
-    if (this.state.editPost) {
-      url = 'URL'
-    }
+    console.log({
+      'finish-edit-handler': {
+        isEditPost,
+        EDIT_POST_URL,
+        URL_CREATE_POST,
+        httpOptions,
+      },
+    })
 
-    fetch(URL_CREATE_POST, httpOptions)
+    fetch(isEditPost ? EDIT_POST_URL : URL_CREATE_POST, httpOptions)
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Creating or editing a post failed!')

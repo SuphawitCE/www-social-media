@@ -131,7 +131,9 @@ class Feed extends Component {
 
     const httpOptions = {
       method: isEditPost ? 'PUT' : 'POST',
-      // headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+      },
       body: formData,
     }
 
@@ -196,7 +198,12 @@ class Feed extends Component {
   deletePostHandler = (postId) => {
     this.setState({ postsLoading: true })
 
-    const httpOptions = { method: 'DELETE' }
+    const httpOptions = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+      },
+    }
 
     const DELETE_POST_URL = `${URL_BASE}/feed/post/${postId}`
 

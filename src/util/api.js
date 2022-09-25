@@ -4,4 +4,5 @@ module.exports = {
   URL_BASE,
   URL_GET_POSTS: `${URL_BASE}/feed/posts`,
   URL_CREATE_POST: `${URL_BASE}/feed/post`,
+  URL_PUT_AUTH: `${URL_BASE}/auth`,
 }

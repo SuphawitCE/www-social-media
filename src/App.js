@@ -12,7 +12,7 @@ import SinglePostPage from './pages/Feed/SinglePost/SinglePost'
 import LoginPage from './pages/Auth/Login'
 import SignupPage from './pages/Auth/Signup'
 import './App.css'
-import { URL_PUT_AUTH } from './util/api'
+import { URL_AUTH } from './util/api'
 
 class App extends Component {
   state = {
@@ -61,7 +61,19 @@ class App extends Component {
   loginHandler = (event, authData) => {
     event.preventDefault()
     this.setState({ authLoading: true })
-    fetch('URL')
+
+    const httpOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: authData.email,
+        password: authData.password,
+      }),
+    }
+
+    fetch(`${URL_AUTH}/login`, httpOptions)
       .then((res) => {
         if (res.status === 422) {
           throw new Error('Validation failed.')
@@ -73,7 +85,7 @@ class App extends Component {
         return res.json()
       })
       .then((resData) => {
-        console.log(resData)
+        console.log({ 'login-handler-response': resData })
         this.setState({
           isAuth: true,
           token: resData.token,
@@ -116,7 +128,7 @@ class App extends Component {
       }),
     }
 
-    fetch(`${URL_PUT_AUTH}/signup`, httpOptions)
+    fetch(`${URL_AUTH}/signup`, httpOptions)
       .then((res) => {
         if (res.status === 422) {
           throw new Error(

@@ -51,7 +51,14 @@ class Feed extends Component {
       page--
       this.setState({ postPage: page })
     }
-    fetch(`${URL_GET_POSTS}?page=${page}`)
+
+    const httpOptions = {
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+      },
+    }
+
+    fetch(`${URL_GET_POSTS}?page=${page}`, httpOptions)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch posts.')

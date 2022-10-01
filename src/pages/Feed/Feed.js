@@ -7,7 +7,12 @@ import Input from '../../components/Form/Input/Input'
 import Paginator from '../../components/Paginator/Paginator'
 import Loader from '../../components/Loader/Loader'
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler'
-import { URL_GET_POSTS, URL_CREATE_POST, URL_BASE } from '../../util/api'
+import {
+  URL_GET_POSTS,
+  URL_CREATE_POST,
+  URL_BASE,
+  URL_AUTH,
+} from '../../util/api'
 import './Feed.css'
 
 class Feed extends Component {
@@ -23,7 +28,13 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    fetch('URL')
+    const httpOptions = {
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+      },
+    }
+
+    fetch(`${URL_AUTH}/status`, httpOptions)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch user status.')
@@ -31,6 +42,7 @@ class Feed extends Component {
         return res.json()
       })
       .then((resData) => {
+        console.log({ 'component-did-mount': resData })
         this.setState({ status: resData.status })
       })
       .catch(this.catchError)
@@ -66,6 +78,7 @@ class Feed extends Component {
         return res.json()
       })
       .then((resData) => {
+        console.log({ 'load-post': resData })
         this.setState({
           posts: resData.posts.map((post) => ({
             ...post,
@@ -80,7 +93,16 @@ class Feed extends Component {
 
   statusUpdateHandler = (event) => {
     event.preventDefault()
-    fetch('URL')
+    const httpOptions = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: this.state.status }),
+    }
+
+    fetch(`${URL_AUTH}/status`, httpOptions)
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Can't update status!")
@@ -88,7 +110,7 @@ class Feed extends Component {
         return res.json()
       })
       .then((resData) => {
-        console.log(resData)
+        console.log({ 'status-update': resData })
       })
       .catch(this.catchError)
   }

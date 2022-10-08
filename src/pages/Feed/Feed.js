@@ -51,7 +51,16 @@ class Feed extends Component {
     this.loadPosts()
 
     // Open WebSocket.io with our port
-    openSocket(URL_BASE)
+    const socket = openSocket(URL_BASE)
+    // Listen incoming data from socket.io in 'posts' channel
+    socket.on('posts', (data) => {
+      console.log('socket-posts-data: ', data)
+
+      // Update post real-time
+      if (data.action === 'create') {
+        this.addPost(data.post)
+      }
+    })
   }
 
   addPost = (post) => {
@@ -212,9 +221,10 @@ class Feed extends Component {
               (p) => p._id === prevState.editPost._id,
             )
             updatedPosts[postIndex] = post
-          } else if (prevState.posts.length < 2) {
-            updatedPosts = prevState.posts.concat(post)
           }
+          // else if (prevState.posts.length < 2) {
+          //   updatedPosts = prevState.posts.concat(post)
+          // }
           return {
             posts: updatedPosts,
             isEditing: false,

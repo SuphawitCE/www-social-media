@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import openSocket from 'socket.io-client'
 
 import Post from '../../components/Feed/Post/Post'
 import Button from '../../components/Button/Button'
@@ -48,6 +49,26 @@ class Feed extends Component {
       .catch(this.catchError)
 
     this.loadPosts()
+
+    // Open WebSocket.io with our port
+    openSocket(URL_BASE)
+  }
+
+  addPost = (post) => {
+    this.setState((prevState) => {
+      const updatedPosts = [...prevState.posts]
+      if (prevState.postPage === 1) {
+        updatedPosts.pop()
+        updatedPosts.unshift(post)
+      }
+
+      console.log({ 'add-post': { updatedPosts, prevState } })
+
+      return {
+        posts: updatedPosts,
+        totalPosts: prevState.totalPosts + 1,
+      }
+    })
   }
 
   loadPosts = (direction) => {

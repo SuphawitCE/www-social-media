@@ -56,6 +56,7 @@ class Feed extends Component {
     socket.on('posts', (data) => {
       console.log('socket-posts-data: ', data)
 
+      // Handles real-time event in posts channel
       // Update post real-time
       if (data.action === 'create') {
         this.addPost(data.post)
@@ -63,6 +64,10 @@ class Feed extends Component {
 
       if (data.action === 'update') {
         this.updatePost(data.post)
+      }
+
+      if (data.action === 'delete') {
+        this.loadPosts()
       }
     })
   }
@@ -234,18 +239,7 @@ class Feed extends Component {
           createdAt: resData.post.createdAt,
         }
         this.setState((prevState) => {
-          // let updatedPosts = [...prevState.posts]
-          // if (prevState.editPost) {
-          //   const postIndex = prevState.posts.findIndex(
-          //     (p) => p._id === prevState.editPost._id,
-          //   )
-          //   updatedPosts[postIndex] = post
-          // }
-          // else if (prevState.posts.length < 2) {
-          //   updatedPosts = prevState.posts.concat(post)
-          // }
           return {
-            // posts: updatedPosts,
             isEditing: false,
             editPost: null,
             editLoading: false,
@@ -288,10 +282,7 @@ class Feed extends Component {
       })
       .then((resData) => {
         console.log('delete:', resData)
-        this.setState((prevState) => {
-          const updatedPosts = prevState.posts.filter((p) => p._id !== postId)
-          return { posts: updatedPosts, postsLoading: false }
-        })
+        this.loadPosts()
       })
       .catch((err) => {
         console.log(err)
